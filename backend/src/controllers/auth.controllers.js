@@ -1,6 +1,9 @@
 import User from "../models/user.model.js"
 import bcrypt from "bcryptjs"
+import  {generateToken} from "../lib/utilities.js"
+
 export const signup = async(reqest,response)=>{
+  console.log("signup")
     const {fullName,email,password} = reqest.body
    try{
     // checking all field are entered or not 
@@ -11,7 +14,7 @@ export const signup = async(reqest,response)=>{
       if (password.length<6){
         return response.status(400).json({message:"Password must be at least 6 characters"})
       }
-      // checking weather user is exists or not
+      // checking weather user is exists or not vx 
       const user = await User.findOne({email})
       if (user){
         return response.status(400).json({message:"Email is already exists"})
@@ -27,9 +30,11 @@ export const signup = async(reqest,response)=>{
         password:hashedPassword
       })
 
+      console.log(newUser)
+
       if (newUser){
         // generating jwt token for authentication 
-        generateToken(newUser._id)
+        generateToken(newUser._id,response)
         await newUser.save()
         response.status(201).json({
           _id:newUser._id,
@@ -49,10 +54,49 @@ export const signup = async(reqest,response)=>{
    }
 }
 
-export const login = (reqest,response)=>{
-    response.send("login route")
+export const login = async(reqest,response)=>{
+  const {email,password} = reqest.body
+  try{
+
+    const user = await User.findOne({email})
+    if (!user){
+      return response.status(404).json({message:"Invalid Credentials"})
+    }
+    const isPasswordCorrect = await bcrypt.compare(password,user.password)
+    if (!isPasswordCorrect){
+      return response.status(400).json({message:"Invalid Credentials"})
+    }
+
+    generateToken(user._id,response)
+    response.status(200).json({
+      _id:user._id,
+      fullName:user.fullName,
+      email:user.email,
+      profilePic:user.profilePic
+
+    })
+    }catch(error){
+    console.log("Error in login controller",error.message)
+    response.status(500).json({message:"Internal server Error"})
+  }
 }
 
-export const logout = (reqest,response)=>{
-    response.send("logout route")
+export const logout = async(reqest,response)=>{
+    try{
+      response.cookie("jwt","",{maxAge:0})
+      response.status(200).json({message:"Logged out Successfully"})
+    }
+    catch(error){
+      console.log("error at logout controller",error.message)
+     response.status(500).json({message:"Internal Server Error"})
+    }
+}
+
+export const updateProfile = async(reqest,protectedRoute,response)=>{
+  try{
+
+
+  }catch(error){
+
+  }
 }
