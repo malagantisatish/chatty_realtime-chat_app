@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import { connectDB } from "./lib/chatdb.js"
 import authRoutes from "./routes/auth.route.js"
+import messageRoute from "./routes/messageRoute.route.js"
 import cookieParser from "cookie-parser"
 
 dotenv.config() // for accessing .env variables we need to import and config()
@@ -15,6 +16,7 @@ app.use(express.json()) // for destructuring json we need to do this
 
 app.use(cookieParser())
 app.use("/api/auth",authRoutes)
+app.use("/api/message",messageRoute)
 
 
 app.listen(PORT,()=>{
