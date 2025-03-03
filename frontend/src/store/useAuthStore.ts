@@ -19,5 +19,9 @@ export const useAuthStore =  create((set:any)=>({
         }finally{
             set({isCheckingAuth:false})
         }
+    },
+    signup:async()=>{
+        
     }
+
 }))
