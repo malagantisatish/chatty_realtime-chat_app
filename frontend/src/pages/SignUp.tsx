@@ -4,18 +4,44 @@ import { Eye, EyeOff, Loader, Lock, Mail, MessageSquare, User } from 'lucide-rea
 import { useAuthStore } from '../store/useAuthStore'
 import { Link } from 'react-router-dom'
 import AuthImagePatterns from '../components/AuthImagePatterns'
+import { validateEmail } from '../lib/commonFunctions'
+import { toast } from 'react-toastify'
 
 const SignUp = () => {
   const [formData,setFormData] = useState<FormTy>({fullName:"",email:"",password:""})
   const [showPassword,setShowPassword] = useState<boolean>(false)
-  const {isSigningUp} = useAuthStore()
+  const {isSigningUp,signup} = useAuthStore()
 
   const validateForm = ()=>{
+    let  isvalid = true,errMsg=""
+    debugger
 
+    if (!formData.fullName.trim()){
+      isvalid = false,
+      errMsg = "Full Name is required"
+    }else if (!formData.email.trim()){
+      isvalid = false
+      errMsg = "Email is required"
+    }else if (!validateEmail(formData.email)){
+      isvalid = false;
+      errMsg = "Email is not valid"
+    }else if (!formData.password){
+      isvalid = false;
+      errMsg = "password is required"
+    }else if (formData.password.length<6){
+       isvalid = false;
+      errMsg = "password should contain atleast 6 characters"
+    }
+    if (!isvalid)return toast.error(errMsg,{toastId:"validationMsg"})
+  return isvalid
   }
 
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
+   const isvalid = validateForm()
+   if(isvalid){
+    signup(formData)
+   }
 
   }
 

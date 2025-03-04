@@ -9,6 +9,9 @@ import Profile from "./pages/Profile"
 import { useAuthStore } from "./store/useAuthStore"
 import { useEffect } from "react"
 import { Loader } from "lucide-react"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 
 
@@ -34,6 +37,7 @@ const App = () => {
         <Route path="/settings" element={<Settings/>}/>
         <Route path="/profile" element={authUser?<Profile/>:<Navigate to="/login"/>}/>
       </Routes>
+      <ToastContainer />
     </div>
   )
 }

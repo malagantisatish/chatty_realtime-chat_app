@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import { toast } from "react-toastify";
+import { FormTy } from "../Const";
 
 export const useAuthStore =  create((set:any)=>({
     authUser:null,
@@ -20,8 +22,29 @@ export const useAuthStore =  create((set:any)=>({
             set({isCheckingAuth:false})
         }
     },
-    signup:async()=>{
-        
-    }
+    signup:async(data:FormTy)=>{
+      try{
+        const response = await axiosInstance.post("/auth/signup",data)
+        if (response.status===201){
+            set({authUser:response.data})
+            toast.success("Account created Successfully",{toastId:"signupSuccess"})
+        }
+      }catch(error:any){
+        toast.error(error.response.data.message,{toastId:"Error msg"})
+      }finally{
+        set({isSigningUp:false})
+      }
+    },
+    logout:async()=>{
+        try{
+          await axiosInstance.post("/auth/logout")
+          set({authUser:null})
+              toast.success("Logged out Successfully",{toastId:"loggout"})
+        }catch(error:any){
+          toast.error(error.response.data.message,{toastId:"Error msg"})
+        }finally{
+          set({isSigningUp:false})
+        }
+      }
 
 }))
