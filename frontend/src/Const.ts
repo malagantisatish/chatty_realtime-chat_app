@@ -3,3 +3,8 @@ export interface FormTy{
     email:string;
     password:string
 }
+
+export interface LoginFormTy{
+    email:string;
+    password:string
+}
