@@ -14,8 +14,6 @@ const SignUp = () => {
 
   const validateForm = ()=>{
     let  isvalid = true,errMsg=""
-    debugger
-
     if (!formData.fullName.trim()){
       isvalid = false,
       errMsg = "Full Name is required"

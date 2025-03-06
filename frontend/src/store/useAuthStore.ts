@@ -23,6 +23,7 @@ export const useAuthStore =  create((set:any)=>({
         }
     },
     signup:async(data:FormTy)=>{
+      set({isSigningUp:true})
       try{
         const response = await axiosInstance.post("/auth/signup",data)
         if (response.status===201){
@@ -36,6 +37,7 @@ export const useAuthStore =  create((set:any)=>({
       }
     },
     login:async(data:LoginFormTy)=>{
+      set({isLoggingIn:true})
       try{
         const response = await axiosInstance.post("/auth/login",data)
         if (response.status===201){
@@ -45,7 +47,7 @@ export const useAuthStore =  create((set:any)=>({
       }catch(error:any){
         toast.error(error.response.data.message,{toastId:"Error msg"})
       }finally{
-        set({isSigningUp:false})
+        set({isLoggingIn:false})
       }
     },
     logout:async()=>{
@@ -58,6 +60,18 @@ export const useAuthStore =  create((set:any)=>({
         }finally{
           set({isSigningUp:false})
         }
+      },
+    profileUpdate:async(data:any)=>{
+      set({isUpdatingProfile:true})
+      try{
+        const response =  await axiosInstance.post("/auth/profile",data)
+
+      }catch(error:any){
+        toast.error(error.response.data.message,{toastId:"Error Mesg"})
+
+      }finally{
+        set({isUpdatingProfile:false})
       }
+    }  
 
 }))

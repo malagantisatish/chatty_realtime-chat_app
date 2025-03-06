@@ -10,7 +10,7 @@ import { useState } from 'react'
 const Login = () => {
   const [formData,setFormData] = useState<LoginFormTy>({email:"",password:""})
   const [showPassword,setShowPassword] = useState<boolean>(false)
-  const {isSigningUp,login} = useAuthStore()
+  const {isLoggingIn,login} = useAuthStore()
 
   const validateForm = ()=>{
     let  isvalid = true,errMsg=""
@@ -105,10 +105,10 @@ const Login = () => {
                 </button>
               </div>
             </div>
-            <button type="submit" className='btn btn-primary w-full' disabled={isSigningUp}>
-              {isSigningUp?(
+            <button type="submit" className='btn btn-primary w-full' disabled={isLoggingIn}>
+              {isLoggingIn?(
                 <Loader className='size-5 animate-spin'/>
-              ):"Create Account"}
+              ):"Sign In"}
             </button>
           </form>
           <div className='text-center'>
