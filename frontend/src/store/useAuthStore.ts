@@ -3,7 +3,30 @@ import { axiosInstance } from "../lib/axios";
 import { toast } from "react-toastify";
 import { FormTy, LoginFormTy } from "../Const";
 
-export const useAuthStore =  create((set:any)=>({
+
+interface AuthState {
+  authUser: FormTy | null;
+  isSigningUp: boolean;
+  isLoggingIn: boolean;
+  isUpdatingProfile: boolean;
+  isCheckingAuth: boolean;
+}
+
+// Define types for actions (methods)
+interface AuthActions {
+  checkAuth: () => Promise<void>;
+  signup: (data: FormTy) => Promise<void>;
+  login: (data: LoginFormTy) => Promise<void>;
+  logout: () => Promise<void>;
+  profileUpdate: (profilePic: string | ArrayBuffer | null) => Promise<void>;
+}
+
+
+// Define the complete store type
+type AuthStore = AuthState & AuthActions;
+
+
+export const useAuthStore =  create<AuthStore>((set)=>({
     authUser:null,
     isSigningUp:false,
     isLoggingIn:false,
@@ -61,10 +84,10 @@ export const useAuthStore =  create((set:any)=>({
           set({isSigningUp:false})
         }
       },
-    profileUpdate:async(data:any)=>{
+    profileUpdate:async(profilePic:string | ArrayBuffer | null)=>{
       set({isUpdatingProfile:true})
       try{
-        const response =  await axiosInstance.post("/auth/profile",data)
+        const response =  await axiosInstance.post("/auth/profile",profilePic)
 
       }catch(error:any){
         toast.error(error.response.data.message,{toastId:"Error Mesg"})
