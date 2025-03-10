@@ -60,10 +60,11 @@ export const useAuthStore =  create<AuthStore>((set)=>({
       }
     },
     login:async(data:LoginFormTy)=>{
+      debugger
       set({isLoggingIn:true})
       try{
         const response = await axiosInstance.post("/auth/login",data)
-        if (response.status===201){
+        if (response.status===200){
             set({authUser:response.data})
             toast.success("Login Successfully",{toastId:"login success"})
         }
@@ -87,7 +88,7 @@ export const useAuthStore =  create<AuthStore>((set)=>({
     profileUpdate:async(profilePic:string | ArrayBuffer | null)=>{
       set({isUpdatingProfile:true})
       try{
-        const response =  await axiosInstance.post("/auth/profile",profilePic)
+        const response =  await axiosInstance.post("/update-profile",profilePic)
 
       }catch(error:any){
         toast.error(error.response.data.message,{toastId:"Error Mesg"})

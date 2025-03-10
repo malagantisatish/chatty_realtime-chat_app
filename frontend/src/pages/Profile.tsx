@@ -4,7 +4,7 @@ import { Camera, Mail, User } from 'lucide-react'
 
 const Profile = () => {
   const {authUser,isUpdatingProfile,profileUpdate} =   useAuthStore()
-  const [selectedProfile,setSelectedProfile] = useState<string  | null>("")
+  const [selectedProfile,setSelectedProfile] = useState<string  | null |ArrayBuffer >()
 
   const handleProfileImg = async(e:any)=>{
     const file = e.target.files[0]
@@ -14,7 +14,7 @@ const Profile = () => {
     reader.onload = async()=>{
       const base64Img = reader.result;
       setSelectedProfile(base64Img)
-      await (profileUpdate({profilePic:base64Img}))
+      await (profileUpdate(base64Img))
     }
 
   }
@@ -29,7 +29,7 @@ const Profile = () => {
           {/**avatar upload section */}
           <div className='flex flex-col items-center gap-4'>
             <div className='relative'>
-              <img src={selectedProfile || authUser?.profile || "../../public/avatar (1).png" } alt="profile" 
+              <img src={selectedProfile as any|| authUser?.profile || "../../public/avatar (1).png" } alt="profile" 
               className='size-32 rounded-full object-cover border-4' />
               <label htmlFor='avatar-upload' className='absolute bottom-0 right-0
               bg-base-content hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200'>
