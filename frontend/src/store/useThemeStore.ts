@@ -4,7 +4,7 @@ export const usethemeStore = create((set:any)=>({
     theme:localStorage.getItem("chat-theme")||"coffee",
 
     setTheme:(theme:string)=>{
-        debugger
+        localStorage.setItem("chat-theme",theme)
         set({theme})
     }
 }))
