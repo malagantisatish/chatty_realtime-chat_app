@@ -2,7 +2,38 @@ import { toast } from "react-toastify";
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 
-export const useChatStore = create((set)=>({
+interface UserTy{
+    profilePic:string;
+    _id:string;
+    fullName:string
+}
+
+
+
+
+interface ChatState {
+    messages:string[],
+    users:UserTy[],
+    selectedUser:UserTy | null,
+    isUsersLoading:boolean,
+    isMsgLoading:boolean,
+}
+
+// Define types for actions (methods)
+interface ChatActions {
+    getUsers:()=>Promise<void>;
+    getMessages:(id:string)=>Promise<void>
+    setSelectedUser:(setSelectedUser:UserTy)=>void
+
+}
+
+
+// Define the complete store type
+type ChatTy = ChatState & ChatActions;
+
+
+
+export const useChatStore = create<ChatTy>((set)=>({
     messages:[],
     users:[],
     selectedUser:null,
@@ -34,5 +65,7 @@ export const useChatStore = create((set)=>({
         }finally{
             set({isMsgLoading:false})
         }
-    }
+    },
+    setSelectedUser:(selectedUser)=>set({selectedUser}),
+
 }))
