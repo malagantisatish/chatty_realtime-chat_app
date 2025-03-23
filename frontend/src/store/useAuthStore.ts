@@ -34,6 +34,7 @@ export const useAuthStore =  create<AuthStore>((set)=>({
     isCheckingAuth:true,
 
     checkAuth:async()=>{
+      debugger
         try{
         const response = await axiosInstance.get("/auth/check");
         set({authUser:response.data})
@@ -85,10 +86,10 @@ export const useAuthStore =  create<AuthStore>((set)=>({
           set({isSigningUp:false})
         }
       },
-    profileUpdate:async(profilePic:string | ArrayBuffer | null)=>{
+    profileUpdate:async(data:any)=>{
       set({isUpdatingProfile:true})
       try{
-        const response =  await axiosInstance.post("/update-profile",profilePic)
+        const response =  await axiosInstance.put("/auth/update-profile",data)
 
       }catch(error:any){
         toast.error(error.response.data.message,{toastId:"Error Mesg"})

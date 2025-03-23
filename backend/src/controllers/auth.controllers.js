@@ -95,7 +95,6 @@ export const logout = async(reqest,response)=>{
 
 export const updateProfile = async(request,response)=>{
   try{
-
     const {profilePic} = request.body
     const userid = request.user._id
     if (!profilePic){
@@ -103,8 +102,17 @@ export const updateProfile = async(request,response)=>{
     }
 
    const upload =  await cloudinary.uploader.upload(profilePic)
-    updatedUser = await User.findByIdAndUpdate(userid,{profilePic:uploadResponse.secure_url},{new:true})  /*uploadResponse.secure_url*/
-   response.stautus(200).json({updateUser})
+    const updatedUser = await User.findByIdAndUpdate(userid,
+      {profilePic:upload.secure_url},{new:true})  /*uploadResponse.secure_url*/
+   response.status(200).json({
+    "_id": updatedUser._id,
+    "email": updatedUser.email,
+    "fullName": updatedUser.fullName,
+    "profilePic": updatedUser.profilePic,
+    "createdAt": updatedUser.createdAt,
+    "updatedAt": updatedUser.updatedAt,
+    "__v": updatedUser.__v
+   })
 
 
   }catch(error){
@@ -115,8 +123,9 @@ export const updateProfile = async(request,response)=>{
 
 
 export const checkAuth = async(request,response)=>{
+  // console.log("reqest",request)
   try{
-    response.stautus(200).json(request.user)
+    response.status(200).json(request.user)
 
   }catch(error){
     console.log("error at checkauth controller",error.message)

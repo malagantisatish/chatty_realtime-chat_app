@@ -5,6 +5,7 @@ import cloudinary from "../lib/cloudinary.js";
 export const getUserForSidebar = async(request,response)=>{
     try{
         const loggedInUserId = request.user._id;
+        console.log("loggedInUserId",loggedInUserId)
         const filteredUsers = await User.find({id:{$ne:loggedInUserId}}).select("-password"); // getting userlist other than loggedin user and remoing password from it
         
         response.status(200).json(filteredUsers)

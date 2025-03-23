@@ -19,10 +19,13 @@ import { usethemeStore } from "./store/useThemeStore"
 const App = () => {
   const {authUser,checkAuth,isCheckingAuth} = useAuthStore()
   const {theme} = usethemeStore()
-  console.log("app.tsx",theme)
+
+  
   useEffect(()=>{
     checkAuth()
   },[checkAuth])
+
+
   if(isCheckingAuth && !authUser){
     return (
       <div className="flex items-center justify-center h-screen">
@@ -34,11 +37,11 @@ const App = () => {
     <div data-theme={theme} className=''>
       <Navbar/>
       <Routes>
-        <Route path="/" element={<HomePage/>}/>
+        <Route path="/" element={!authUser?<Login/>:<HomePage/>}/>
         <Route path="/signup" element={!authUser?<SignUp/>:<Navigate to="/"/>}/>
-        <Route path="/login" element={<Navigate to="/"/>}/>
-        <Route path="/settings" element={<Settings/>}/>
-        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/login" element={!authUser?<Login/>:<HomePage/>}/>
+        <Route path="/settings" element={!authUser?<Login/>:<Settings/>}/>
+        <Route path="/profile" element={!authUser?<Login/>:<Profile/>}/>
       </Routes>
       <ToastContainer />
     </div>

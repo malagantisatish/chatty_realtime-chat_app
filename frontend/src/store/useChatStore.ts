@@ -42,6 +42,7 @@ export const useChatStore = create<ChatTy>((set)=>({
 
 
     getUsers:async()=>{
+        debugger
         try{
             set({isUsersLoading:true})
             const response = await axiosInstance.get(`/messages/users`)
