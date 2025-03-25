@@ -95,7 +95,8 @@ export const usersDuplicate = [
   ];
   
 
-export const THEMES = [ "light",
+export const THEMES = [ 
+  "light",
     "dark",
     "cupcake",
     "bumblebee",

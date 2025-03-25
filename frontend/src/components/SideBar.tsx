@@ -4,6 +4,7 @@ import SideBarSkeleton from './skeletons/SideBarSkeleton';
 import { Users } from 'lucide-react';
 import { usersDuplicate } from '../Const';
 
+
 const SideBar = () => {
   const {getUsers,users,selectedUser,setSelectedUser,isUsersLoading} = useChatStore()
   const onlineUsers = [];
@@ -26,7 +27,7 @@ const SideBar = () => {
         {/**Todo online filter toggle */}
       </div>
       <div className='overflow-y-auto w-full py-3'>
-      {usersDuplicate.map((user) => (
+      {users.map((user) => (
           <button
             key={user._id}
             onClick={() => setSelectedUser(user)}
@@ -38,7 +39,7 @@ const SideBar = () => {
           >
             <div className="relative mx-auto lg:mx-0">
               <img
-                src={user.profilePic || "/avatar.png"}
+                src={user.profilePic || "../../public/avatar (1).png"}
                 alt={user.fullName}
                 className="size-12 object-cover rounded-full"
               />
@@ -54,13 +55,12 @@ const SideBar = () => {
             <div className="hidden lg:block text-left min-w-0">
               <div className="font-medium truncate">{user.fullName}</div>
               <div className="text-sm text-zinc-400">
-                {usersDuplicate.includes(user._id) ? "Online" : "Offline"}
+                {users.includes(user._id) ? "Online" : "Offline"}
               </div>
             </div>
           </button>
         ))}
       </div>
-      aside
     </aside>
   )
 }
