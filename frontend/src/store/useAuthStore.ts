@@ -10,6 +10,7 @@ interface AuthState {
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
+  onlineUsers:[]
 }
 
 // Define types for actions (methods)
@@ -32,6 +33,7 @@ export const useAuthStore =  create<AuthStore>((set)=>({
     isLoggingIn:false,
     isUpdatingProfile:false,
     isCheckingAuth:true,
+    onlineUsers:[],
 
     checkAuth:async()=>{
       debugger
