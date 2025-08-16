@@ -4,6 +4,7 @@ export interface FormTy{
     password?:string
     profile?:string;
     createdAt?:string;
+    _id?:string
 }
 
 export interface LoginFormTy{

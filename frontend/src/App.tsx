@@ -12,6 +12,7 @@ import { Loader } from "lucide-react"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usethemeStore } from "./store/useThemeStore"
+import StepperAccordion from "./components/GlobalComp/StepperAccordian"
 
 
 
@@ -34,6 +35,9 @@ const App = () => {
     )
   }
   return (
+    // <div data-theme={theme}>
+    //   <StepperAccordion/>
+    // </div>
     <div data-theme={theme} className=''>
       <Navbar/>
       <Routes>

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 export const protectedRoute = async(request,response,next)=>{
+  console.log("req",request)
     try{
       const token = request.cookies.jwt // the name which we are giving initially previously we have given jwt 
       // console.log("token",token)

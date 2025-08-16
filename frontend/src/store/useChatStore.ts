@@ -8,11 +8,22 @@ interface UserTy{
     fullName:string
 }
 
+export interface messagesTy {
+  _id: string
+  senderId: string
+  receiverId: string
+  text: string
+  createdAt: string
+  updatedAt: string
+  __v: number
+  image?: string
+}
+
 
 
 
 interface ChatState {
-    messages:string[],
+    messages:messagesTy[],
     users:UserTy[],
     selectedUser:UserTy | null,
     isUsersLoading:boolean,
@@ -23,8 +34,14 @@ interface ChatState {
 interface ChatActions {
     getUsers:()=>Promise<void>;
     getMessages:(id:string)=>Promise<void>
-    setSelectedUser:(setSelectedUser:UserTy)=>void
+    setSelectedUser:(setSelectedUser:UserTy|null)=>void;
+    sendMessages:(messageData:MessageReqBody)=>Promise<void>
 
+}
+
+interface MessageReqBody{
+    text:string;
+    image:string | undefined
 }
 
 
@@ -33,7 +50,7 @@ type ChatTy = ChatState & ChatActions;
 
 
 
-export const useChatStore = create<ChatTy>((set)=>({
+export const useChatStore = create<ChatTy>((set,get)=>({
     messages:[],
     users:[],
     selectedUser:null,
@@ -66,6 +83,19 @@ export const useChatStore = create<ChatTy>((set)=>({
             set({isMsgLoading:false})
         }
     },
+    sendMessages:async(reqBody:MessageReqBody)=>{
+        console.log("req",reqBody.image)
+          const {selectedUser,messages} = get();
+          try{
+            const response = await axiosInstance.post(`/messages/send/${selectedUser?._id}`,reqBody);
+            set({messages:[...messages,response.data]})
+
+          }catch(err:any){
+              toast.error(err.response.data.message);
+          }
+    }
+    ,
     setSelectedUser:(selectedUser)=>set({selectedUser}),
+     
 
 }))

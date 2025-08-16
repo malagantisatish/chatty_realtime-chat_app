@@ -10,7 +10,7 @@ interface AuthState {
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
-  onlineUsers:[]
+  onlineUsers:string[]
 }
 
 // Define types for actions (methods)
@@ -36,7 +36,6 @@ export const useAuthStore =  create<AuthStore>((set)=>({
     onlineUsers:[],
 
     checkAuth:async()=>{
-      debugger
         try{
         const response = await axiosInstance.get("/auth/check");
         set({authUser:response.data})

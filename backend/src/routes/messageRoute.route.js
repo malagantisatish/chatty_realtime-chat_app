@@ -7,6 +7,6 @@ const router = express.Router()
 
 router.get("/users",protectedRoute,getUserForSidebar)
 router.get("/:id",protectedRoute,getMessages)
-router.get("/send/:id",protectedRoute,sendMessage)
+router.post("/send/:id",protectedRoute,sendMessage)
 
 export default router
