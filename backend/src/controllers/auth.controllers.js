@@ -4,7 +4,6 @@ import  {generateToken} from "../lib/utilities.js"
 import cloudinary from "../lib/cloudinary.js"
 
 export const signup = async(reqest,response)=>{
-  console.log("signup")
     const {fullName,email,password} = reqest.body
    try{
     // checking all field are entered or not 
@@ -31,7 +30,7 @@ export const signup = async(reqest,response)=>{
         password:hashedPassword
       })
 
-      console.log(newUser)
+      (newUser)
 
       if (newUser){
         // generating jwt token for authentication 

@@ -84,7 +84,6 @@ export const useChatStore = create<ChatTy>((set,get)=>({
         }
     },
     sendMessages:async(reqBody:MessageReqBody)=>{
-        console.log("req",reqBody.image)
           const {selectedUser,messages} = get();
           try{
             const response = await axiosInstance.post(`/messages/send/${selectedUser?._id}`,reqBody);

@@ -3,12 +3,9 @@ import Message from "../models/message.model.js";
 import cloudinary from "../lib/cloudinary.js";
 
 export const getUserForSidebar = async(request,response)=>{
-    console.log("req",request)
     try{
         const loggedInUserId = request.user._id;
-        // console.log("loggedInUserId",loggedInUserId)
         const filteredUsers = await User.find({id:{$ne:loggedInUserId}}).select("-password"); // getting userlist other than loggedin user and remoing password from it
-        // console.log("filteredUsers",filteredUsers)
         response.status(200).json(filteredUsers)
     }catch(error){
         console.log("Error at getUserForSidebar",error.message)
@@ -37,7 +34,6 @@ export const getMessages = async(request,response)=>{
 
 
 export const sendMessage = async(request,response)=>{
-    console.log("req",request)
     try{
         const {text,image} = request.body 
         const {id:receiverId} = request.params 

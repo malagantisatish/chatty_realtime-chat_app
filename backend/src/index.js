@@ -4,11 +4,10 @@ import { connectDB } from "./lib/chatdb.js"
 import authRoutes from "./routes/auth.route.js"
 import messageRoute from "./routes/messageRoute.route.js"
 import cookieParser from "cookie-parser"
-import cors from "cors"
+import cors from "cors";
+import {app,server} from "./lib/socket.js"
 
 dotenv.config() // for accessing .env variables we need to import and config()
-
-const app = express()
 
 const PORT = process.env.PORT 
 
@@ -28,7 +27,7 @@ app.use("/api/auth",authRoutes)
 app.use("/api/messages",messageRoute)
 
 
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log(`server is running on port ${PORT}`)
     connectDB()
 })

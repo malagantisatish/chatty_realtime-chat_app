@@ -2,15 +2,17 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { toast } from "react-toastify";
 import { FormTy, LoginFormTy } from "../Const";
+import { io } from "socket.io-client";
 
-
+const BAKCEND_URL = "http://localhost:5002"
 interface AuthState {
   authUser: FormTy | null;
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
-  onlineUsers:string[]
+  onlineUsers:string[],
+  socket:any
 }
 
 // Define types for actions (methods)
@@ -20,6 +22,8 @@ interface AuthActions {
   login: (data: LoginFormTy) => Promise<void>;
   logout: () => Promise<void>;
   profileUpdate: (profilePic: string | ArrayBuffer | null) => Promise<void>;
+  connectSocket:()=>void;
+  disconnectSocket:()=>void;
 }
 
 
@@ -27,19 +31,20 @@ interface AuthActions {
 type AuthStore = AuthState & AuthActions;
 
 
-export const useAuthStore =  create<AuthStore>((set)=>({
+export const useAuthStore =  create<AuthStore>((set,get)=>({
     authUser:null,
     isSigningUp:false,
     isLoggingIn:false,
     isUpdatingProfile:false,
     isCheckingAuth:true,
     onlineUsers:[],
+    socket:null,
 
     checkAuth:async()=>{
         try{
         const response = await axiosInstance.get("/auth/check");
+        get().connectSocket()
         set({authUser:response.data})
-
         }catch(error:any){
             console.log("error at checkAuth",error)
             set({authUser:null})
@@ -52,6 +57,7 @@ export const useAuthStore =  create<AuthStore>((set)=>({
       try{
         const response = await axiosInstance.post("/auth/signup",data)
         if (response.status===201){
+            get().connectSocket()
             set({authUser:response.data})
             toast.success("Account created Successfully",{toastId:"signupSuccess"})
         }
@@ -62,11 +68,11 @@ export const useAuthStore =  create<AuthStore>((set)=>({
       }
     },
     login:async(data:LoginFormTy)=>{
-      debugger
       set({isLoggingIn:true})
       try{
         const response = await axiosInstance.post("/auth/login",data)
         if (response.status===200){
+          get().connectSocket()
             set({authUser:response.data})
             toast.success("Login Successfully",{toastId:"login success"})
         }
@@ -80,6 +86,7 @@ export const useAuthStore =  create<AuthStore>((set)=>({
         try{
           await axiosInstance.post("/auth/logout")
           set({authUser:null})
+          get().disconnectSocket()
               toast.success("Logged out Successfully",{toastId:"loggout"})
         }catch(error:any){
           toast.error(error.response.data.message,{toastId:"Error msg"})
@@ -98,6 +105,25 @@ export const useAuthStore =  create<AuthStore>((set)=>({
       }finally{
         set({isUpdatingProfile:false})
       }
-    }  
+    }  ,
+    connectSocket:()=>{
+      const {authUser} = get();
+      if(!authUser || get().socket?.connected) return
+       const socket = io(BAKCEND_URL,{
+        query:{
+          userId:authUser._id
+        }
+       });
+       socket.connect();
+       set({socket:socket});
+       socket.on("getOnlineUsers",(userIds)=>{
+            set({onlineUsers:userIds});
+       });
+    },
+    disconnectSocket:()=>{
+      if(get().socket.connected()){
+       get().socket.disconnect()
+      }
+    }
 
 }))

@@ -18,19 +18,18 @@ import StepperAccordion from "./components/GlobalComp/StepperAccordian"
 
 
 const App = () => {
-  const {authUser,checkAuth,isCheckingAuth} = useAuthStore()
-  const {theme} = usethemeStore()
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore()
+  const { theme } = usethemeStore()
 
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     checkAuth()
-  },[checkAuth])
+  }, [checkAuth])
 
-
-  if(isCheckingAuth && !authUser){
+  if (isCheckingAuth && !authUser) {
     return (
       <div className="flex items-center justify-center h-screen">
-           <Loader className="size-10 animate-spin"/>
+        <Loader className="size-10 animate-spin" />
       </div>
     )
   }
@@ -39,13 +38,13 @@ const App = () => {
     //   <StepperAccordion/>
     // </div>
     <div data-theme={theme} className=''>
-      <Navbar/>
+      <Navbar />
       <Routes>
-        <Route path="/" element={!authUser?<Login/>:<HomePage/>}/>
-        <Route path="/signup" element={!authUser?<SignUp/>:<Navigate to="/"/>}/>
-        <Route path="/login" element={!authUser?<Login/>:<HomePage/>}/>
-        <Route path="/settings" element={!authUser?<Login/>:<Settings/>}/>
-        <Route path="/profile" element={!authUser?<Login/>:<Profile/>}/>
+        <Route path="/" element={!authUser ? <Login /> : <HomePage />} />
+        <Route path="/signup" element={!authUser ? <SignUp /> : <Navigate to="/" />} />
+        <Route path="/login" element={!authUser ? <Login /> : <HomePage />} />
+        <Route path="/settings" element={!authUser ? <Login /> : <Settings />} />
+        <Route path="/profile" element={!authUser ? <Login /> : <Profile />} />
       </Routes>
       <ToastContainer />
     </div>

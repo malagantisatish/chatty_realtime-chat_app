@@ -8,37 +8,37 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 
 const Login = () => {
-  const [formData,setFormData] = useState<LoginFormTy>({email:"",password:""})
-  const [showPassword,setShowPassword] = useState<boolean>(false)
-  const {isLoggingIn,login} = useAuthStore()
+  const [formData, setFormData] = useState<LoginFormTy>({ email: "siva@gmail.com", password: "sivayya" })
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const { isLoggingIn, login } = useAuthStore()
 
-  const validateForm = ()=>{
-    let  isvalid = true,errMsg=""
+  const validateForm = () => {
+    let isvalid = true, errMsg = ""
     debugger
 
-  if (!formData.email.trim()){
+    if (!formData.email.trim()) {
       isvalid = false
       errMsg = "Email is required"
-    }else if (!validateEmail(formData.email)){
+    } else if (!validateEmail(formData.email)) {
       isvalid = false;
       errMsg = "Email is not valid"
-    }else if (!formData.password){
+    } else if (!formData.password) {
       isvalid = false;
       errMsg = "password is required"
-    }else if (formData.password.length<6){
-       isvalid = false;
+    } else if (formData.password.length < 6) {
+      isvalid = false;
       errMsg = "password should contain atleast 6 characters"
     }
-    if (!isvalid)return toast.error(errMsg,{toastId:"validationMsg"})
-  return isvalid
+    if (!isvalid) return toast.error(errMsg, { toastId: "validationMsg" })
+    return isvalid
   }
 
-  const handleSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-   const isvalid = validateForm()
-   if(isvalid){
-    login(formData)
-   }
+    const isvalid = validateForm()
+    if (isvalid) {
+      login(formData)
+    }
 
   }
 
@@ -48,19 +48,19 @@ const Login = () => {
     <div className='min-h-screen grid lg:grid-cols-2'>
       {/**leftside */}
       <div className='flex flex-col justify-center items-center p-6 sm:p-12'>
-         <div className='w-full max-w-md space-y-8'>
+        <div className='w-full max-w-md space-y-8'>
           {/**LOGO */}
           <div className='text-centermb-8'>
-          <div className='flex flex-col items-center gap-2 grounp'>
-            <div className='size -12 rounded-xl bg-primary/10 flex items-center justify-center groud-hover:bg-primary/20 transistion-color'>
-               <MessageSquare className='size-6 text-primary'/>
+            <div className='flex flex-col items-center gap-2 grounp'>
+              <div className='size -12 rounded-xl bg-primary/10 flex items-center justify-center groud-hover:bg-primary/20 transistion-color'>
+                <MessageSquare className='size-6 text-primary' />
+              </div>
+              <h1 className='text-2xl font-bold mt-2'>Welcome Back</h1>
+              <p className='text-base-content/60'>Sign in to your account</p>
             </div>
-            <h1 className='text-2xl font-bold mt-2'>Welcome Back</h1>
-            <p className='text-base-content/60'>Sign in to your account</p>
-          </div>
           </div>
           <form onSubmit={handleSubmit} className='space-y-6'>
-              <div className="form-control">
+            <div className="form-control">
               <label className="label">
                 <span className="label-text font-medium">Email</span>
               </label>
@@ -106,22 +106,22 @@ const Login = () => {
               </div>
             </div>
             <button type="submit" className='btn btn-primary w-full' disabled={isLoggingIn}>
-              {isLoggingIn?(
-                <Loader className='size-5 animate-spin'/>
-              ):"Sign In"}
+              {isLoggingIn ? (
+                <Loader className='size-5 animate-spin' />
+              ) : "Sign In"}
             </button>
           </form>
           <div className='text-center'>
             <p className='etxt-base-content/60'>
-          Don't have an Account?{" "}
-            <Link to="/signup" className="link link-primary">Sign Up</Link>
+              Don't have an Account?{" "}
+              <Link to="/signup" className="link link-primary">Sign Up</Link>
             </p>
           </div>
-         </div>
+        </div>
       </div>
       {/**right side */}
-      <AuthImagePatterns title='Join Our Community' 
-      subtitle='Connect with friends, share moments, and stay in touch with your loved ones'/>
+      <AuthImagePatterns title='Join Our Community'
+        subtitle='Connect with friends, share moments, and stay in touch with your loved ones' />
 
     </div>
   )
