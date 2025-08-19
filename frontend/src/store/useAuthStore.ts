@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { FormTy, LoginFormTy } from "../Const";
 import { io } from "socket.io-client";
 
-const BAKCEND_URL = "http://localhost:5002"
+const BAKCEND_URL = import.meta.env.MODE==="development"?"http://localhost:5002":"/"
 interface AuthState {
   authUser: FormTy | null;
   isSigningUp: boolean;

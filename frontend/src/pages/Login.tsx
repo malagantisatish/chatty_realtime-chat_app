@@ -1,5 +1,5 @@
-import { FormTy, LoginFormTy } from '../Const'
-import { Eye, EyeOff, Loader, Lock, Mail, MessageSquare, User } from 'lucide-react'
+import { LoginFormTy } from '../Const'
+import { Eye, EyeOff, Loader, Lock, Mail, MessageSquare } from 'lucide-react'
 import { useAuthStore } from '../store/useAuthStore'
 import { Link } from 'react-router-dom'
 import AuthImagePatterns from '../components/AuthImagePatterns'

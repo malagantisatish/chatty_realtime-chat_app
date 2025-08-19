@@ -1,6 +1,5 @@
-import React from 'react'
 
-const AuthImagePatterns = ({title,subtitle}:{title:string,subtitle:string}) => {
+const AuthImagePatterns = ({ title, subtitle }: { title: string, subtitle: string }) => {
   return (
     <div className="hidden lg:flex items-center justify-center bg-base-200 p-12">
       <div className="max-w-md text-center">

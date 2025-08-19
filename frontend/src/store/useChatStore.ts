@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import { useAuthStore } from "./useAuthStore";
 
 interface UserTy{
     profilePic:string;
@@ -35,13 +36,15 @@ interface ChatActions {
     getUsers:()=>Promise<void>;
     getMessages:(id:string)=>Promise<void>
     setSelectedUser:(setSelectedUser:UserTy|null)=>void;
-    sendMessages:(messageData:MessageReqBody)=>Promise<void>
+    sendMessages:(messageData:MessageReqBody)=>Promise<void>;
+    subscribeToMessage:()=>void;
+    unSubscribeToMessage:()=>void;
 
 }
 
 interface MessageReqBody{
     text:string;
-    image:string | undefined
+    image?:string | undefined
 }
 
 
@@ -92,6 +95,23 @@ export const useChatStore = create<ChatTy>((set,get)=>({
           }catch(err:any){
               toast.error(err.response.data.message);
           }
+    },
+    subscribeToMessage:()=>{
+       const {selectedUser} = get()
+       if(!selectedUser)return 
+       const socket = useAuthStore.getState().socket;
+       socket.on("newMessage",(newMessage:messagesTy)=>{
+        const isMessageFromSelectedUser = newMessage.receiverId!==selectedUser._id
+        if(!isMessageFromSelectedUser)return
+        set({
+            messages:[...get().messages,newMessage]
+        })
+       })
+    },
+    unSubscribeToMessage:()=>{
+       const socket = useAuthStore.getState().socket;
+       socket.off("newMessage")
+
     }
     ,
     setSelectedUser:(selectedUser)=>set({selectedUser}),

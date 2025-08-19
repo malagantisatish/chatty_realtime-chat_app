@@ -9,10 +9,9 @@ import Profile from "./pages/Profile"
 import { useAuthStore } from "./store/useAuthStore"
 import { useEffect } from "react"
 import { Loader } from "lucide-react"
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usethemeStore } from "./store/useThemeStore"
-import StepperAccordion from "./components/GlobalComp/StepperAccordian"
 
 
 
@@ -25,6 +24,8 @@ const App = () => {
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
+
+  console.log("onlineUsers", onlineUsers)
 
   if (isCheckingAuth && !authUser) {
     return (

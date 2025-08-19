@@ -5,6 +5,7 @@ import cloudinary from "../lib/cloudinary.js"
 
 export const signup = async(reqest,response)=>{
     const {fullName,email,password} = reqest.body
+    console.log("signBd",reqest.body)
    try{
     // checking all field are entered or not 
     if (!fullName || !email || !password){
@@ -30,7 +31,7 @@ export const signup = async(reqest,response)=>{
         password:hashedPassword
       })
 
-      (newUser)
+      // (newUser)
 
       if (newUser){
         // generating jwt token for authentication 
