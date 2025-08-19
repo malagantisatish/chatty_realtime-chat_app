@@ -35,9 +35,6 @@ const App = () => {
     )
   }
   return (
-    // <div data-theme={theme}>
-    //   <StepperAccordion/>
-    // </div>
     <div data-theme={theme} className=''>
       <Navbar />
       <Routes>
