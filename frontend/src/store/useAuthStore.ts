@@ -97,7 +97,7 @@ export const useAuthStore =  create<AuthStore>((set,get)=>({
     profileUpdate:async(data:any)=>{
       set({isUpdatingProfile:true})
       try{
-        const response =  await axiosInstance.put("/auth/update-profile",data)
+         await axiosInstance.put("/auth/update-profile",data)
 
       }catch(error:any){
         toast.error(error.response.data.message,{toastId:"Error Mesg"})
