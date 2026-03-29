@@ -10,17 +10,21 @@ import path from "path";
 
 dotenv.config() // for accessing .env variables we need to import and config()
 
-const PORT = process.env.PORT
-const _dirname = path.resolve()
+const PORT = process.env.PORT || 5002;
+const __dirname = path.resolve()
 
 app.use(express.json()) // for destructuring json we need to do this
 app.use(cookieParser())
 
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
+if (process.env.NODE_ENV === "production") {
+
+    app.use(cors({
+        origin: "http://localhost:3000",
+        credentials: true
+    }
+    ))
 }
-))
+
 
 
 
