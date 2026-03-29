@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore'
 import { Camera, Mail, User } from 'lucide-react'
 
+import avatharImg from "../../public/avatar (1).png"
+
 const Profile = () => {
   const { authUser, isUpdatingProfile, profileUpdate } = useAuthStore()
   const [selectedProfile, setSelectedProfile] = useState<string | null | ArrayBuffer>()
@@ -29,7 +31,7 @@ const Profile = () => {
           {/**avatar upload section */}
           <div className='flex flex-col items-center gap-4'>
             <div className='relative'>
-              <img src={selectedProfile as any || authUser?.profile || "../../public/avatar (1).png"} alt="profile"
+              <img src={selectedProfile as any || authUser?.profile || avatharImg} alt="profile"
                 className='size-32 rounded-full object-cover border-4' />
               <label htmlFor='avatar-upload' className='absolute bottom-0 right-0
               bg-base-content hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200'>
