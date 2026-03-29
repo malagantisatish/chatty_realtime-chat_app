@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 
 const Login = () => {
-  const [formData, setFormData] = useState<LoginFormTy>({ email: "siva@gmail.com", password: "sivayya" })
+  const [formData, setFormData] = useState<LoginFormTy>({ email: "", password: "" })
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const { isLoggingIn, login } = useAuthStore()
 
